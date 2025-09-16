@@ -4,6 +4,7 @@ int main(void)
 {
 	while(1)
 	{
-		
+		print("hello");
+		print("world");
 	}
 }
