@@ -6,5 +6,7 @@ int main(void)
 	{
 		print("hello");
 		print("world");
+		print("hello");
+		print("world");
 	}
 }
