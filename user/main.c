@@ -27,6 +27,18 @@ int main(void)
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10; // PA10
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU; // 上拉输入
 	GPIO_Init(GPIOA, &GPIO_InitStructure);// 初始化PA10
+
+	//串口重映射
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);// 使能AFIO时钟
+	GPIO_PinRemapConfig(GPIO_Remap_USART1, ENABLE);// 串口1
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);// 使能GPIOB时钟
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6; // PB6
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;// 50MHz	
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP; // 复用推挽输出
+	GPIO_Init(GPIOB, &GPIO_InitStructure);// 初始化PB6
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7; // PB7
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU; // 上拉输入
+	GPIO_Init(GPIOB, &GPIO_InitStructure);// 初始化PB7
 	while(1)
 	{
 
