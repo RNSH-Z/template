@@ -1,13 +1,13 @@
 #include "stm32f10x.h"
 #include "stdio.h"
 void My_Uart_Init(void);
-void My_Uart_send_data(USART_TypeDef* USARTx, uint8_t *data, uint16_t len);
-
+void My_Uart_send_hex(USART_TypeDef* USARTx, uint8_t *data, uint16_t len);
+void My_Uart_send_str(USART_TypeDef* USARTx, char *str);
 int main(void)
 {
 	char str[]={1,2,3,4,5,6,7,8,9,10};
 	My_Uart_Init();
-	My_Uart_send_data(USART1,(uint8_t *)str,10);
+	My_Uart_send_hex(USART1,(uint8_t *)str,10);
 	while(1)
 	{
 
@@ -65,7 +65,13 @@ void My_Uart_Init(void)
 //	return ch;
 //}
 
-void My_Uart_send_data(USART_TypeDef* USARTx, uint8_t *data, uint16_t len)
+
+
+
+
+
+
+void My_Uart_send_hex(USART_TypeDef* USARTx, uint8_t *data, uint16_t len)
 {
 	for(uint16_t i=0; i<len; i++)
 	{
@@ -76,3 +82,12 @@ void My_Uart_send_data(USART_TypeDef* USARTx, uint8_t *data, uint16_t len)
 }
 
 
+void My_Uart_send_str(USART_TypeDef* USARTx, char *str)
+{
+	while(*str)
+	{
+		while(USART_GetFlagStatus(USARTx, USART_FLAG_TXE) == RESET);//等待发送区空
+		USART_SendData(USARTx, *str++);
+	}
+	while(USART_GetFlagStatus(USARTx, USART_FLAG_TC) == RESET);//等待发送完成
+}
